@@ -1,0 +1,39 @@
+{
+    "appKeys": {
+        "KEY_CONDITIONS": 1,
+        "KEY_TEMPERATURE": 0
+    },
+    "capabilities": [
+        "location"
+    ],
+    "companyName": "Anton Isaev",
+    "longName": "Simple Time",
+    "projectType": "native",
+    "resources": {
+        "media": [
+            {
+                "file": "fonts/font.ttf",
+                "name": "PERFECT_TIME_14",
+                "type": "font"
+            },
+            {
+                "file": "fonts/font.ttf",
+                "name": "PERFECT_TIME_36",
+                "type": "font"
+            },
+            {
+                "file": "fonts/font.ttf",
+                "name": "PERFECT_TIME_17",
+                "type": "font"
+            }
+        ]
+    },
+    "sdkVersion": "2",
+    "shortName": "Simple Time",
+    "uuid": "12e2f4f5-7a65-49f9-9a74-c0728b812b25",
+    "versionCode": 1,
+    "versionLabel": "1.0",
+    "watchapp": {
+        "watchface": true
+    }
+}
