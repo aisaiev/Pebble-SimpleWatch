@@ -7,10 +7,16 @@
         "location"
     ],
     "companyName": "Anton Isaev",
-    "longName": "Simple Time",
+    "longName": "Simple Watch",
     "projectType": "native",
     "resources": {
         "media": [
+            {
+                "file": "images/icon.png",
+                "menuIcon": true,
+                "name": "icon",
+                "type": "png"
+            },
             {
                 "file": "fonts/font.ttf",
                 "name": "PERFECT_TIME_14",
@@ -29,7 +35,7 @@
         ]
     },
     "sdkVersion": "2",
-    "shortName": "Simple Time",
+    "shortName": "Simple Watch",
     "uuid": "12e2f4f5-7a65-49f9-9a74-c0728b812b25",
     "versionCode": 1,
     "versionLabel": "1.0",
