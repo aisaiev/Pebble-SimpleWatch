@@ -30,7 +30,7 @@ void update_time() {
   } else {
     //Use 12 hour format
     strftime(time, sizeof("00:00"), "%I:%M", tick_time);
-  }
+}
   
   // Write the current week into the buffer
 strftime(week, sizeof(week), "%A", tick_time);
@@ -40,14 +40,14 @@ strftime(date, sizeof(date), "%d.%m.%Y", tick_time);
   
   // Display this time on the TextLayer
   text_layer_set_text(TimeText, time);
-  
+    
   // Display this week on the TextLayer
   text_layer_set_text(WeekText, week);
   
   // Display this date on the TextLayer
   text_layer_set_text(DateText, date);
    
-  }
+}
   
 void main_window_load(Window *window) {
   window_set_background_color(MainWindow, GColorBlack);
@@ -55,7 +55,6 @@ void main_window_load(Window *window) {
   TimeText = text_layer_create(GRect(0, 46, 145, 50));
   text_layer_set_background_color(TimeText, GColorClear);
   text_layer_set_text_color(TimeText, GColorClear);
-  text_layer_set_text(TimeText, "00:00");
   TimeFont = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_PERFECT_TIME_36));
   text_layer_set_font(TimeText, TimeFont);
   text_layer_set_text_alignment(TimeText, GTextAlignmentCenter);
@@ -75,7 +74,7 @@ void main_window_load(Window *window) {
   text_layer_set_background_color(DateText, GColorClear);
   text_layer_set_text_color(DateText, GColorClear);
   DateFont = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_PERFECT_TIME_17));
-  text_layer_set_font(DateText, WeekFont);
+  text_layer_set_font(DateText, DateFont);
   text_layer_set_text_alignment(DateText, GTextAlignmentCenter);
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(DateText));
   
@@ -84,7 +83,7 @@ void main_window_load(Window *window) {
   text_layer_set_background_color(WeatherText, GColorClear);
   text_layer_set_text_color(WeatherText, GColorClear);
   WeatherFont = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_PERFECT_TIME_14));
-  text_layer_set_font(WeatherText, WeekFont);
+  text_layer_set_font(WeatherText, WeatherFont);
   text_layer_set_text_alignment(WeatherText, GTextAlignmentCenter);
   text_layer_set_text(WeatherText, "Loading");
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(WeatherText));
@@ -144,11 +143,11 @@ static void inbox_received_callback(DictionaryIterator *iterator, void *context)
     default:
       APP_LOG(APP_LOG_LEVEL_ERROR, "Key %d not recognized!", (int)t->key);
       break;
-    }
+  }
 
     // Look for next item
     t = dict_read_next(iterator);
-  }
+}
   
   // Assemble full string and display
   snprintf(weather, sizeof(weather), "%s, %s", temperature, conditions);
