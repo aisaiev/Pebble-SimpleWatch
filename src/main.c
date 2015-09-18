@@ -81,7 +81,7 @@ void process_tuple(Tuple *t)
 			break;
     case KEY_TEMPERATURE:
 			//Temperature data received
-			snprintf(temperature, sizeof(temperature), "%d", value);
+			snprintf(temperature, sizeof(temperature), "%dC", value);
 			break;
     case KEY_CONDITIONS:
 			//Conditions data received
@@ -180,8 +180,8 @@ void main_window_unload(Window *window) {
 void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
   update_time();
   
-  // Get weather update every 2 hour
-  if(tick_time->tm_hour % 2 == 0) {
+  // Get weather update every 2 hours
+  if(tick_time->tm_min % 120 == 0) {
     // Begin dictionary
     DictionaryIterator *iter;
     app_message_outbox_begin(&iter);
@@ -210,7 +210,7 @@ void init() {
   window_stack_push(MainWindow, false);
 
   // Register with TickTimerService
-  tick_timer_service_subscribe(HOUR_UNIT, tick_handler);
+  tick_timer_service_subscribe(MINUTE_UNIT, tick_handler);
   
   // Register callbacks
   app_message_register_inbox_received(in_received_handler);
