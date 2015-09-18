@@ -1,7 +1,9 @@
 {
     "appKeys": {
-        "KEY_CONDITIONS": 1,
-        "KEY_TEMPERATURE": 0
+        "KEY_BUY": 1,
+        "KEY_CONDITIONS": 3,
+        "KEY_SALE": 0,
+        "KEY_TEMPERATURE": 2
     },
     "capabilities": [
         "location"
@@ -12,14 +14,8 @@
     "resources": {
         "media": [
             {
-                "file": "images/icon.png",
-                "menuIcon": true,
-                "name": "icon",
-                "type": "png"
-            },
-            {
                 "file": "fonts/font.ttf",
-                "name": "PERFECT_TIME_14",
+                "name": "PERFECT_TIME_36",
                 "type": "font"
             },
             {
@@ -29,8 +25,14 @@
             },
             {
                 "file": "fonts/font.ttf",
-                "name": "PERFECT_TIME_36",
+                "name": "PERFECT_TIME_14",
                 "type": "font"
+            },
+            {
+                "file": "images/icon.png",
+                "menuIcon": true,
+                "name": "icon",
+                "type": "png"
             }
         ]
     },

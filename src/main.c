@@ -1,17 +1,17 @@
 #include <pebble.h>
-  
-#define KEY_TEMPERATURE 0
-#define KEY_CONDITIONS 1
+
   
 Window *MainWindow;
 TextLayer *TimeText;
 TextLayer *WeekText;
 TextLayer *DateText;
 TextLayer *WeatherText;
+TextLayer *CurrencyText;
 GFont TimeFont;
 GFont WeekFont;
 GFont DateFont;
 GFont WeatherFont;
+GFont CurrencyFont;
  
 void update_time() {
   // Get a tm structure
@@ -47,6 +47,67 @@ strftime(date, sizeof(date), "%d.%m.%Y", tick_time);
   // Display this date on the TextLayer
   text_layer_set_text(DateText, date);
    
+}
+
+char sale[6], buy[6], temperature[32], conditions[32], weather[32], currency[12];
+enum {
+	KEY_SALE = 0,
+	KEY_BUY = 1,
+  KEY_TEMPERATURE = 2,
+  KEY_CONDITIONS = 3,
+};
+
+void process_tuple(Tuple *t)
+{
+	//Get key
+	int key = t->key;
+  
+  //Get integer value, if present
+	int value = t->value->int32;
+  
+	//Get string value, if present
+	char string_value[32];
+	strcpy(string_value, t->value->cstring);
+
+	//Decide what to do
+	switch(key) {
+		case KEY_SALE:
+			//Sale data received
+			snprintf(sale, sizeof(sale), "%s", string_value);
+			break;
+		case KEY_BUY:
+			//Buy data received
+			snprintf(buy, sizeof(buy), "%s", string_value);
+			break;
+    case KEY_TEMPERATURE:
+			//Temperature data received
+			snprintf(temperature, sizeof(temperature), "%d", value);
+			break;
+    case KEY_CONDITIONS:
+			//Conditions data received
+			snprintf(conditions, sizeof(conditions), "%s", string_value);
+			break;
+	}
+}
+
+static void in_received_handler(DictionaryIterator *iter, void *context) 
+{
+	(void) context;
+	
+	//Get data
+	Tuple *t = dict_read_first(iter);
+	while(t != NULL)
+	{
+		process_tuple(t);
+		
+		//Get next
+		t = dict_read_next(iter);
+	}
+  // Assemble full string and display
+  snprintf(weather, sizeof(weather), "%s, %s", temperature, conditions);
+  text_layer_set_text(WeatherText, weather);
+  snprintf(currency, sizeof(currency), "%s/%s", buy, sale);
+  text_layer_set_text(CurrencyText, currency);
 }
   
 void main_window_load(Window *window) {
@@ -87,6 +148,16 @@ void main_window_load(Window *window) {
   text_layer_set_text_alignment(WeatherText, GTextAlignmentCenter);
   text_layer_set_text(WeatherText, "Loading");
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(WeatherText));
+  
+  // Currency Text
+  CurrencyText = text_layer_create(GRect(0, 129, 145, 25));
+  text_layer_set_background_color(CurrencyText, GColorClear);
+  text_layer_set_text_color(CurrencyText, GColorClear);
+  CurrencyFont = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_PERFECT_TIME_14));
+  text_layer_set_font(CurrencyText, CurrencyFont);
+  text_layer_set_text_alignment(CurrencyText, GTextAlignmentCenter);
+  text_layer_set_text(CurrencyText, "USD/UAH");
+  layer_add_child(window_get_root_layer(window), text_layer_get_layer(CurrencyText));
       
   // Make sure the time is displayed from the start
   update_time();
@@ -98,17 +169,19 @@ void main_window_unload(Window *window) {
   text_layer_destroy(WeekText);
   text_layer_destroy(DateText);
   text_layer_destroy(WeatherText);
+  text_layer_destroy(CurrencyText);
   fonts_unload_custom_font(TimeFont);
   fonts_unload_custom_font(WeekFont);
   fonts_unload_custom_font(DateFont);
   fonts_unload_custom_font(WeatherFont);
+  fonts_unload_custom_font(CurrencyFont);
 }
   
 void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
   update_time();
   
-  // Get weather update every 1 hour
-  if(tick_time->tm_hour % 1 == 0) {
+  // Get weather update every 2 hour
+  if(tick_time->tm_hour % 2 == 0) {
     // Begin dictionary
     DictionaryIterator *iter;
     app_message_outbox_begin(&iter);
@@ -121,50 +194,6 @@ void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
   }
 }
 
-static void inbox_received_callback(DictionaryIterator *iterator, void *context) {
-// Store incoming information
-  static char temperature[8];
-  static char conditions[32];
-  static char weather[32];
-  
-  // Read first item
-  Tuple *t = dict_read_first(iterator);
-
-  // For all items
-  while(t != NULL) {
-    // Which key was received?
-    switch(t->key) {
-    case KEY_TEMPERATURE:
-      snprintf(temperature, sizeof(temperature), "%dC", (int)t->value->int32);
-      break;
-    case KEY_CONDITIONS:
-      snprintf(conditions, sizeof(conditions), "%s", t->value->cstring);
-      break;
-    default:
-      APP_LOG(APP_LOG_LEVEL_ERROR, "Key %d not recognized!", (int)t->key);
-      break;
-  }
-
-    // Look for next item
-    t = dict_read_next(iterator);
-}
-  
-  // Assemble full string and display
-  snprintf(weather, sizeof(weather), "%s, %s", temperature, conditions);
-  text_layer_set_text(WeatherText, weather);  
-}
-
-static void inbox_dropped_callback(AppMessageResult reason, void *context) {
-  APP_LOG(APP_LOG_LEVEL_ERROR, "Message dropped!");
-}
-
-static void outbox_failed_callback(DictionaryIterator *iterator, AppMessageResult reason, void *context) {
-  APP_LOG(APP_LOG_LEVEL_ERROR, "Outbox send failed!");
-}
-
-static void outbox_sent_callback(DictionaryIterator *iterator, void *context) {
-  APP_LOG(APP_LOG_LEVEL_INFO, "Outbox send success!");
-}
 
 void init() {
   // Create main Window element and assign to pointer
@@ -181,13 +210,10 @@ void init() {
   window_stack_push(MainWindow, false);
 
   // Register with TickTimerService
-  tick_timer_service_subscribe(MINUTE_UNIT, tick_handler);
+  tick_timer_service_subscribe(HOUR_UNIT, tick_handler);
   
   // Register callbacks
-  app_message_register_inbox_received(inbox_received_callback);
-  app_message_register_inbox_dropped(inbox_dropped_callback);
-  app_message_register_outbox_failed(outbox_failed_callback);
-  app_message_register_outbox_sent(outbox_sent_callback);
+  app_message_register_inbox_received(in_received_handler);
   
   // Open AppMessage
   app_message_open(app_message_inbox_size_maximum(), app_message_outbox_size_maximum());
