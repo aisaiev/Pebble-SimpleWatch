@@ -23,7 +23,14 @@ var getcurrency = function() {
 	var dict = {"KEY_SALE" : sale, "KEY_BUY": buy};
 	
 	//Send data to watch for display
-	Pebble.sendAppMessage(dict);
+	Pebble.sendAppMessage(dict,
+    function(e) {
+      console.log("Currency info sent to Pebble successfully!");
+    },
+    function(e) {
+      console.log("Error sending currency info to Pebble!");
+    }
+   );
 };
 
 Pebble.addEventListener("ready",

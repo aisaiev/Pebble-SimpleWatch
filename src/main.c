@@ -32,7 +32,7 @@ void update_time() {
     strftime(time, sizeof("00:00"), "%I:%M", tick_time);
 }
   
-  // Write the current week into the buffer
+  // Write the current date into the buffer
 strftime(week, sizeof(week), "%A", tick_time);
   
   // Write the current week into the buffer
