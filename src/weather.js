@@ -10,7 +10,7 @@ var xhrRequest = function (url, type, callback) {
 function locationSuccess(pos) {
   // Construct URL
   var url = "http://api.openweathermap.org/data/2.5/weather?lat=" +
-      pos.coords.latitude + "&lon=" + pos.coords.longitude;
+      pos.coords.latitude + "&lon=" + pos.coords.longitude + "&APPID=a41d1d46e2d9075acbe27655af273216";
 
   // Send request to OpenWeatherMap
   xhrRequest(url, 'GET', 
