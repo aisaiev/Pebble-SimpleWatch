@@ -17,7 +17,8 @@ var getcurrency = function() {
 	var sale = json[2].sale;
 	
 	//Console output to check all is working.
-  console.log("Buy:" + buy + "Sale:" + sale);
+  console.log("Buy:" + buy);
+  console.log("Sale:" + sale);
 	
 	//Construct a key-value dictionary	
 	var dict = {"KEY_SALE" : sale, "KEY_BUY": buy};

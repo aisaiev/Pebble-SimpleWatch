@@ -1,0 +1,59 @@
+{
+    "author": "Anton Isaev",
+    "dependencies": {},
+    "keywords": [],
+    "name": "simple-watch",
+    "pebble": {
+        "capabilities": [
+            "location"
+        ],
+        "displayName": "Simple Watch",
+        "enableMultiJS": false,
+        "messageKeys": {
+            "KEY_BUY": 1,
+            "KEY_CONDITIONS": 3,
+            "KEY_SALE": 0,
+            "KEY_TEMPERATURE": 2
+        },
+        "projectType": "native",
+        "resources": {
+            "media": [
+                {
+                    "file": "images/icon.png",
+                    "menuIcon": true,
+                    "name": "icon",
+                    "targetPlatforms": [
+                        "aplite",
+                        "basalt"
+                    ],
+                    "type": "png"
+                },
+                {
+                    "file": "fonts/font.ttf",
+                    "name": "PERFECT_TIME_36",
+                    "type": "font"
+                },
+                {
+                    "file": "fonts/font.ttf",
+                    "name": "PERFECT_TIME_17",
+                    "type": "font"
+                },
+                {
+                    "file": "fonts/font.ttf",
+                    "name": "PERFECT_TIME_14",
+                    "type": "font"
+                }
+            ]
+        },
+        "sdkVersion": "3",
+        "targetPlatforms": [
+            "aplite",
+            "basalt"
+        ],
+        "uuid": "12e2f4f5-7a65-49f9-9a74-c0728b812b25",
+        "watchapp": {
+            "watchface": true
+        }
+    },
+    "version": "1.2.0"
+}
