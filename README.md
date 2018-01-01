@@ -5,7 +5,7 @@
 ### Simple Watch there is watchface with weather based on your location and exchange rates USD/UAH.
 
 <a href="https://apps.getpebble.com/applications/55fbc0c63c882806bf00003d">
-  <img src="http://pblweb.com/badge/55fbc0c63c882806bf00003d/orange/medium/" alt="Simple Watch on the Pebble appstore" />
+  <img src="https://i.imgur.com/BDhWbv2.jpg" alt="Simple Watch on the Pebble appstore" />
 </a>
 
 =============================================================
