@@ -24,7 +24,8 @@
                     "name": "icon",
                     "targetPlatforms": [
                         "aplite",
-                        "basalt"
+                        "basalt",
+                        "diorite"
                     ],
                     "type": "png"
                 },
@@ -48,12 +49,13 @@
         "sdkVersion": "3",
         "targetPlatforms": [
             "aplite",
-            "basalt"
+            "basalt",
+            "diorite"
         ],
         "uuid": "12e2f4f5-7a65-49f9-9a74-c0728b812b25",
         "watchapp": {
             "watchface": true
         }
     },
-    "version": "1.2.0"
+    "version": "1.5.0"
 }

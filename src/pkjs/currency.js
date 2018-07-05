@@ -13,8 +13,8 @@ var getcurrency = function() {
 	var json = JSON.parse(response);
 	
 	//Extract the data
-	var buy = json[2].buy;
-	var sale = json[2].sale;
+	var buy = json[0].buy;
+	var sale = json[0].sale;
 	
 	//Console output to check all is working.
   console.log("Buy:" + buy);
